@@ -7,11 +7,20 @@
 
 <body>
 
+---
+---
+
 <h1>Музыкальные черновики</h1>
 
-<p>8 марта 2026</p>
+<ul>
+{% for post in site.posts %}
 
-<a href="sketch-1.html">Не так</a>
+<li>
+{{ post.date | date: "%d %B %Y" }} —
+<a href="{{ post.url }}">{{ post.title }}</a>
+</li>
 
+{% endfor %}
+</ul>
 </body>
 </html>
