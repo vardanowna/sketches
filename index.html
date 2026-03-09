@@ -1,26 +1,53 @@
+---
+---
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Музыкальные черновики</title>
+
+<style>
+body{
+max-width:700px;
+margin:auto;
+font-family:serif;
+line-height:1.6;
+}
+
+h1{
+margin-top:40px;
+}
+
+.date{
+color:gray;
+font-size:14px;
+}
+
+.sketch{
+margin-bottom:25px;
+}
+</style>
+
 </head>
 
 <body>
 
----
----
-
 <h1>Музыкальные черновики</h1>
 
-<ul>
 {% for post in site.posts %}
 
-<li>
-{{ post.date | date: "%d %B %Y" }} —
+<div class="sketch">
+
+<div class="date">
+{{ post.date | date: "%d %B %Y" }}
+</div>
+
 <a href="{{ post.url }}">{{ post.title }}</a>
-</li>
+
+</div>
 
 {% endfor %}
-</ul>
+
 </body>
 </html>
