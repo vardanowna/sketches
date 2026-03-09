@@ -5,49 +5,131 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Музыкальные черновики</title>
+
+<title>музыкальные черновики</title>
 
 <style>
+
 body{
-max-width:700px;
+max-width:640px;
 margin:auto;
-font-family:serif;
-line-height:1.6;
+padding:40px 20px;
+font-family:"Courier New", monospace;
+font-size:16px;
+line-height:1.7;
+color:#222;
+background:#fff;
 }
 
 h1{
-margin-top:40px;
-}
-
-.date{
-color:gray;
-font-size:14px;
+font-size:18px;
+font-weight:normal;
+margin-bottom:40px;
 }
 
 .sketch{
-margin-bottom:25px;
+margin-bottom:28px;
 }
+
+.date{
+font-size:13px;
+color:#777;
+}
+
+.line{
+margin-top:4px;
+cursor:pointer;
+}
+
+.play{
+margin-right:6px;
+}
+
+audio{
+display:none;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h1>Музыкальные черновики</h1>
+<h1>музыкальные черновики</h1>
 
 {% for post in site.posts %}
 
 <div class="sketch">
 
 <div class="date">
-{{ post.date | date: "%d %B %Y" }}
+
+{% assign m = post.date | date: "%m" %}
+
+{{ post.date | date: "%-d" }}
+{% case m %}
+{% when "01" %}января
+{% when "02" %}февраля
+{% when "03" %}марта
+{% when "04" %}апреля
+{% when "05" %}мая
+{% when "06" %}июня
+{% when "07" %}июля
+{% when "08" %}августа
+{% when "09" %}сентября
+{% when "10" %}октября
+{% when "11" %}ноября
+{% when "12" %}декабря
+{% endcase %}
+{{ post.date | date: "%Y" }}
+
 </div>
 
-<a href="{{ post.url }}">{{ post.title }}</a>
+<div class="line" onclick="play('{{ forloop.index }}')">
+
+<span class="play" id="icon{{ forloop.index }}">▶️</span>
+
+<span>
+{{ post.content | strip_html | truncate: 70 }}
+</span>
+
+</div>
+
+<audio id="audio{{ forloop.index }}">
+<source src="{{ post.audio }}" type="audio/mpeg">
+</audio>
 
 </div>
 
 {% endfor %}
+
+<script>
+
+let currentAudio=null
+let currentIcon=null
+
+function play(id){
+
+let audio=document.getElementById("audio"+id)
+let icon=document.getElementById("icon"+id)
+
+if(currentAudio && currentAudio!==audio){
+currentAudio.pause()
+currentIcon.textContent="▶️"
+}
+
+if(audio.paused){
+audio.play()
+icon.textContent="⏸️"
+currentAudio=audio
+currentIcon=icon
+}else{
+audio.pause()
+icon.textContent="▶️"
+}
+
+}
+
+</script>
 
 </body>
 </html>
